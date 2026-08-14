@@ -7,9 +7,9 @@ namespace RibBitMBus {
     //% blockId="ribbit_mbus_switchBus"
     export function switchMBus(state: RibBit.OnOff = RibBit.OnOff.On): void {
         if(state == RibBit.OnOff.On)
-            RibBit.ribbit_cmd( RibBit.Device.MBUS, RibBit.Command.POWER_ENABLE );
+            RibBit.reg_write(0x03, 0x01);
         else
-            RibBit.ribbit_cmd( RibBit.Device.MBUS, RibBit.Command.POWER_DISABLE );
+            RibBit.reg_write(0x03, 0x00);
     }
 
     //% block="mikroBUS serial write line $text \u26A0"
@@ -38,7 +38,7 @@ namespace RibBitMBus {
     //% blockId="ribbit_mbus_serialwritetext"
     //% group="Serial Port"
     export function serialWriteString(text: string): void {
-        RibBit.ribbit_serial_write( RibBit.Device.MBUS, Buffer.fromUTF8(text) );
+        RibBit.reg_write_buffer(0x0D, Buffer.fromUTF8(text));
     }
 
     //% block="mikroBUS serial write numbers $values \u26A0"
@@ -75,7 +75,8 @@ namespace RibBitMBus {
     //% advanced="true"
     //% baud.defl=RibBit.SerialBaud.BAUD_9600
     export function serialSetBaud(baud: RibBit.SerialBaud = RibBit.SerialBaud.BAUD_9600 ): void {
-        RibBit.ribbit_set_baud( baud );
+        //RibBit.ribbit_set_baud( baud );
+        return
     }
 
     //% block="on mikroBUS string received \u26A0"
